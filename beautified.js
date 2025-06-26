@@ -62,27 +62,46 @@ if ('this_is' == /an_example/) {
                 }), u.appendChild(i), o.appendChild(u), l(u, i)
             })
         },
-        l = (t, e) => {
-            if (!t) return console.error("[TKFORM] Не найдено комбинированной формы, обратитесь к разработчику: bystricky@tonky-kot.ru"), !1;
-            if (!e) return console.error(`[TKFORM] Не найдено кнопки submit в форме`, t), !1;
-            e.setAttribute("type", "submit"), e.setAttribute("tabindex", "0"), e.setAttribute("onKeyDown", "tkForm.handleSubmitKeyDown(event)");
-            let r = e.getAttribute("style");
-            e.setAttribute("style", r + " cursor: pointer;"), e.addEventListener("click", e => {
-                e.preventDefault(), e.stopPropagation(), window.tildaForm.hideErrors(t);
-                let r = window.tildaForm.validate(t);
-                if (r.length) {
-                    window.tildaForm.showErrors(t, r);
-                    return
-                }
-                if (!t_forms__initBtnClick) return console.error("[TKFORM] Функция t_forms__initBtnClick не инициализирована на странице"), !1;
-                t_forms__initBtnClick(e)
-            	window.location.href = "http://trueremonter.tilda.ws/htvjyn";
-            }), e.classList.add("t-submit"), t_onReady(function() {
-                setTimeout(function() {
-                    window.t_upwidget__init ? t_zeroForms__onFuncLoad("t_upwidget__init", () => e.classList.remove("t-submit")) : e.classList.remove("t-submit")
-                }, 500)
-            })
-        };
+       l = (t, e) => {
+    if (!t) return console.error("[TKFORM] Не найдено комбинированной формы..."), !1;
+    if (!e) return console.error("[TKFORM] Не найдено кнопки submit в форме", t), !1;
+
+    e.setAttribute("type", "submit");
+    e.setAttribute("tabindex", "0");
+    e.setAttribute("onKeyDown", "tkForm.handleSubmitKeyDown(event)");
+
+    let r = e.getAttribute("style");
+    e.setAttribute("style", r + " cursor: pointer;");
+
+    e.addEventListener("click", e => {
+        e.preventDefault(), e.stopPropagation();
+        window.tildaForm.hideErrors(t);
+
+        let r = window.tildaForm.validate(t);
+        if (r.length) {
+            window.tildaForm.showErrors(t, r);
+            return;
+        }
+
+        if (!t_forms__initBtnClick) return console.error("[TKFORM] Функция t_forms__initBtnClick не инициализирована"), !1;
+
+        t_forms__initBtnClick(e);
+
+        // ✅ Добавили задержку, чтобы форма успела отправиться
+        setTimeout(() => {
+            window.location.href = "http://trueremonter.tilda.ws/htvjyn";
+        }, 500);
+    });
+
+    e.classList.add("t-submit"),
+    t_onReady(function() {
+        setTimeout(function() {
+            window.t_upwidget__init ?
+                t_zeroForms__onFuncLoad("t_upwidget__init", () => e.classList.remove("t-submit")) :
+                e.classList.remove("t-submit")
+        }, 500)
+    })
+};
     t.tkForm = {
         init: o,
         handleSubmitKeyDown: function t(e) {
